@@ -273,14 +273,20 @@ namespace PUBG_Replay_Manager
                 
                 case "Weather_Desert_Sunrise":
                     return "Sunrise";
-                
-                case "Weather_Desert_Clear":
+
                 case "Weather_Clear":
+                case "Weather_Desert_Clear":
+                case "Weather_Savage_Clear":
                     return "Sunny";
                 
                 case "Weather_Dark":
+                case "Weather_Desert_Sunset":
                     return "Sunset";
-                
+
+                case "Weather_Desert_Overcast":
+                case "Weather_Savage_Overcast":
+                    return "Overcast";
+
                 default:
                     return weather;
             }
