@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Threading;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PUBG_Replay_Manager
 {
@@ -183,7 +184,7 @@ namespace PUBG_Replay_Manager
             }
         }
         
-        public void RefreshReplayList()
+        public async void RefreshReplayList()
         {
             replayGrid.Rows.Clear();
             foreach (DataGridViewRow item in replayGrid.Rows)
@@ -192,19 +193,9 @@ namespace PUBG_Replay_Manager
             }
             if (Directory.Exists(replayloc))
             {
-                List<Replay> replays = new List<Replay>();
-                
-                foreach (string directory in Directory.GetDirectories(replayloc))
-                {
-                    if(directory.Contains("match."))
-                    {
-                        replays.Add(new Replay(directory));
-                    }
-                }
-                
-                replays.Sort((x, y) => x.Info.Unixtime.CompareTo(y.Info.Unixtime));
-                replays.Reverse();
-                
+                // Loading replays from disk can take a while, so don't block the UI in the meantime
+                List<Replay> replays = await Task.Run(() => LoadReplays(replayloc));
+
                 foreach (Replay replay in replays)
                 {
                     replayGrid.Rows.Add(replay.CustomName, FormatRecorderRank(replay.Recorder), FormatGameMode(replay.Info.Mode), FormatGameLength(replay.Info.LengthInMs), replay.Path.Replace(replayloc + "\\", ""));                    
@@ -212,6 +203,23 @@ namespace PUBG_Replay_Manager
             }
             AmountOfReplays_SB.Text = "Replays: 0/" + replayGrid.Rows.Count;
             replayGrid.Refresh();
+        }
+
+        private List<Replay> LoadReplays(string replayloc)
+        {
+            List<Replay> replays = new List<Replay>();
+
+            foreach (string directory in Directory.GetDirectories(replayloc))
+            {
+                if (directory.Contains("match."))
+                {
+                    replays.Add(new Replay(directory));
+                }
+            }
+
+            replays.Sort((x, y) => x.Info.Unixtime.CompareTo(y.Info.Unixtime));
+            replays.Reverse();
+            return replays;
         }
 
         private string FormatRecorderRank(ReplaySummaryPlayer player)
