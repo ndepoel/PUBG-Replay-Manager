@@ -502,7 +502,7 @@ namespace PUBG_Replay_Manager
             }
         }
 
-        private void exportallreplays_Click(object sender, EventArgs e)
+        private async void exportallreplays_Click(object sender, EventArgs e)
         {
             DialogResult aus = MessageBox.Show("This will export ALL replays in the Replays folder to a zip file" + Environment.NewLine + "Are you sure you want to export all replays?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
             if (aus == DialogResult.Yes)
@@ -518,9 +518,19 @@ namespace PUBG_Replay_Manager
                 if (saveFileDialog1.FileName != "")
                 {
                     string zipPath = saveFileDialog1.FileName;//URL for your ZIP file
+                    if (File.Exists(zipPath)) File.Delete(zipPath);
+
                     if (Directory.Exists(replayloc))
                     {
-                        ZipFile.CreateFromDirectory(replayloc, zipPath, CompressionLevel.Fastest, true);
+                        try
+                        {
+                            Enabled = false;
+                            await Task.Run(() => ZipFile.CreateFromDirectory(replayloc, zipPath, CompressionLevel.Fastest, true));
+                        }
+                        finally
+                        {
+                            Enabled = true;
+                        }
                     }
                 }
                 MessageBox.Show("All replays saved!", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
