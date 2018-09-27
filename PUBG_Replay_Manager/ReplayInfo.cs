@@ -26,6 +26,9 @@ namespace PUBG_Replay_Manager
         
         [EnumMember(Value = "squad-fpp")]
         SquadFPP,
+
+        [EnumMember(Value = "custom")]
+        Custom,
     }
 
     public enum GameMap
@@ -37,6 +40,9 @@ namespace PUBG_Replay_Manager
         
         [EnumMember(Value = "Erangel_Main")]
         Erangel,
+
+        [EnumMember(Value = "Savage_Main")]
+        Sanhok,
     }
 
     public enum ServerType
