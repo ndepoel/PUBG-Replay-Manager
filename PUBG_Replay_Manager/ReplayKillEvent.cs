@@ -16,7 +16,7 @@ namespace PUBG_Replay_Manager
         [JsonProperty("victimName")]
         public string VictimName;
         
-        public string ToString()
+        public override string ToString()
         {
             return ToString(KillerId, KillerName, "killed", VictimId, VictimName);
         }

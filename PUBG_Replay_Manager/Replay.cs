@@ -147,12 +147,12 @@ namespace PUBG_Replay_Manager
     class ReplayEventMeta
     {
         [JsonProperty("id")]
-        public string Id;
+        public string Id { get; set; }
 
         [JsonProperty("group")]
-        public string Group;
+        public string Group { get; set; }
 
         [JsonProperty("time1")]
-        public int Time;
+        public int Time { get; set; }
     }
 }

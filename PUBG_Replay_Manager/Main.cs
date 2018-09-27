@@ -363,7 +363,7 @@ namespace PUBG_Replay_Manager
                         tmBlocks[i].KillerPubgName.Text = killEvent.KillerName;
                         tmBlocks[i].KillerSteamId.Text = killEvent.KillerId;
                     }
-                    catch (InvalidOperationException e)
+                    catch (InvalidOperationException)
                     {
                         tmBlocks[i].KillerPubgName.Text = "[unknown]";
                         tmBlocks[i].KillerSteamId.Text = "[unknown]";

@@ -5,3 +5,4 @@
 /.vs/PUBG_Replay_Manager/v15/Server/sqlite3
 /.vs
 **/packages/*
+*.user
