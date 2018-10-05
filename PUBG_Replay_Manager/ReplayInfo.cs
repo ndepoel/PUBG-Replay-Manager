@@ -87,7 +87,7 @@ namespace PUBG_Replay_Manager
                         break;
                 }
 
-                ServerId = parts[9].Remove(0, parts[9].Length - 6);
+                ServerId = parts[9].Remove(0, Math.Max(0, parts[9].Length - 6));
             }
 
             get { return friendlyName; }
